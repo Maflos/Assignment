@@ -9,16 +9,16 @@ namespace Model
     public class Account: Entity
     {
         private int accountID;
-        private int userID;
+        private int clientID;
         private string type;
         private double balance;
         private DateTime creationDate;
 
-        public Account(int accountID, int userID, string type, 
+        public Account(int accountID, int clientID, string type, 
             double balance, DateTime creationDate)
         {
             this.accountID = accountID;
-            this.userID = userID;
+            this.clientID = clientID;
             this.type = type;
             this.balance = balance;
             this.creationDate = creationDate;
@@ -64,11 +64,11 @@ namespace Model
             set { accountID = value; }
         }
 
-        public int UserID
+        public int ClientID
         {
-            get { return userID; }
+            get { return clientID; }
 
-            set { userID = value; }
+            set { clientID = value; }
         }
 
         public string Type

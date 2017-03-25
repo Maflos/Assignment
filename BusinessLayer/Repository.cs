@@ -24,9 +24,9 @@ namespace BusinessLayer
             myGateway.Insert(entity);
         }
 
-        public void Delete(TEntity entity)
+        public void Delete(int id)
         {
-            myGateway.Delete(entity);
+            myGateway.Delete(id);
         }
 
     }

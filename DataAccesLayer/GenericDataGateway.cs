@@ -9,8 +9,37 @@ namespace DataAccesLayer
 {
     public abstract class GenericDataGateway<TEntity> where TEntity : Entity
     {
-        public abstract void Insert(TEntity entity);
+        protected MySql.Data.MySqlClient.MySqlConnection conn;
 
-        public abstract void Delete(TEntity entity);
+        public GenericDataGateway(string myConnectionString)
+        {
+            try
+            {
+                conn = new MySql.Data.MySqlClient.MySqlConnection();
+                conn.ConnectionString = myConnectionString;
+                conn.Open();
+            }
+            catch (MySql.Data.MySqlClient.MySqlException ex)
+            {
+                Console.WriteLine("Nope! { 0 }", ex.ToString());
+            }
+        }
+
+        public abstract bool Insert(TEntity entity);
+
+        public abstract bool Delete(int id);
+
+        public abstract bool Update(int id, TEntity newEntity);
+
+        public abstract TEntity Find(int id);
+
+        public abstract List<TEntity> FindAll(int id);
+
+        public MySql.Data.MySqlClient.MySqlConnection Conn
+        {
+            get { return conn; }
+            set { conn = value; }
+        }
+
     }
 }

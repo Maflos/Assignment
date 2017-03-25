@@ -6,16 +6,16 @@ using System.Threading.Tasks;
 
 namespace Model
 {
-    class Employee: Entity
+    public class Employee: Entity
     {
         private int employeeID;
         private string name;
         private string username;
         private string password;
-        private string isAdmin;
+        private int isAdmin;
 
         public Employee(int employeeID, string name, string username, 
-            string password, string isAdmin)
+            string password, int isAdmin)
         {
             this.employeeID = employeeID;
             this.name = name;
@@ -49,7 +49,7 @@ namespace Model
             set {  password = value; }
         }
 
-        public string IsAdmin
+        public int IsAdmin
         {
             get { return isAdmin; }
             set { isAdmin = value; }
