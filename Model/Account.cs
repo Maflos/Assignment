@@ -24,6 +24,39 @@ namespace Model
             this.creationDate = creationDate;
         }
 
+        public bool ProccessUtilities(double sumToBePayed)
+        {
+            bool isPayed = true;
+
+            if (sumToBePayed > balance)
+            {
+                isPayed = false;
+            }
+            else
+            {
+                balance -= sumToBePayed;
+            }
+
+            return isPayed;
+        }
+
+        public bool TransferMoney(Account recipientAccount, double sumToBeTransfered)
+        {
+            bool isTransfered = true;
+
+            if(sumToBeTransfered > balance)
+            {
+                isTransfered = false;
+            }
+            else
+            {
+                balance -= sumToBeTransfered;
+                recipientAccount.Balance += sumToBeTransfered;
+            }
+
+            return isTransfered;
+        }
+
         public int AccountID
         {
             get { return accountID; }
