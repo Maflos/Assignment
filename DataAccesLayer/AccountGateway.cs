@@ -7,7 +7,7 @@ using Model;
 
 namespace DataAccesLayer
 {
-    class AccountGateway : GenericDataGateway<Account>
+    public class AccountGateway : GenericDataGateway<Account>
     {
         public AccountGateway(string myConnectionString) : base(myConnectionString)
         {
@@ -21,11 +21,10 @@ namespace DataAccesLayer
             {
                 MySql.Data.MySqlClient.MySqlCommand cmd = new MySql.Data.MySqlClient.MySqlCommand();
                 cmd.Connection = conn;
-                cmd.CommandText = "INSERT INTO account(accountID, clientID, type, balance, creationDate)" + 
-                   " VALUES(@aID, @cID, @type, @balance, @cd";
+                cmd.CommandText = "INSERT INTO account(clientID, type, balance, creationDate)" + 
+                   " VALUES(@cID, @type, @balance, @cd)";
                 cmd.Prepare();
 
-                cmd.Parameters.AddWithValue("@aID", entity.AccountID);
                 cmd.Parameters.AddWithValue("@cID", entity.ClientID);
                 cmd.Parameters.AddWithValue("@type", entity.Type);
                 cmd.Parameters.AddWithValue("@balance", entity.Balance);
@@ -72,12 +71,11 @@ namespace DataAccesLayer
             {
                 MySql.Data.MySqlClient.MySqlCommand cmd = new MySql.Data.MySqlClient.MySqlCommand();
                 cmd.Connection = conn;
-                cmd.CommandText = "UPDATE account SET accountID=@aID, clientID=@cID," +
+                cmd.CommandText = "UPDATE account SET clientID=@cID," +
                     " type=@type, balance=@balance, creationDate=@cd" + 
                     " WHERE accountID=@id";
                 cmd.Prepare();
 
-                cmd.Parameters.AddWithValue("@aID", newEntity.AccountID);
                 cmd.Parameters.AddWithValue("@cID", newEntity.ClientID);
                 cmd.Parameters.AddWithValue("@type", newEntity.Type);
                 cmd.Parameters.AddWithValue("@balance", newEntity.Balance);
@@ -124,7 +122,7 @@ namespace DataAccesLayer
             return account;
         }
 
-        public override List<Account> FindAll(int id)
+        public override List<Account> FindAll()
         {
             MySql.Data.MySqlClient.MySqlDataReader rdr = null;
             List<Account> result = new List<Account>();

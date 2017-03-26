@@ -24,6 +24,12 @@ namespace Model
             this.address = address;
         }
 
+        public override string ToString()
+        {
+            return clientID + ") " + name + " " + idCardNumber +
+                " " + code + " " + address;
+        }
+
         public int ClientID
         {
             get { return clientID; }

@@ -33,7 +33,7 @@ namespace DataAccesLayer
 
         public abstract TEntity Find(int id);
 
-        public abstract List<TEntity> FindAll(int id);
+        public abstract List<TEntity> FindAll();
 
         public MySql.Data.MySqlClient.MySqlConnection Conn
         {

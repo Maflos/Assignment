@@ -7,7 +7,7 @@ using Model;
 
 namespace DataAccesLayer
 {
-    class EmployeeGateway : GenericDataGateway<Employee>
+    public class EmployeeGateway : GenericDataGateway<Employee>
     {
         public EmployeeGateway(string myConnectionString) : base(myConnectionString)
         {
@@ -21,11 +21,10 @@ namespace DataAccesLayer
             {
                 MySql.Data.MySqlClient.MySqlCommand cmd = new MySql.Data.MySqlClient.MySqlCommand();
                 cmd.Connection = conn;
-                cmd.CommandText = "INSERT INTO employee(employeeID, name, username, password, isAdmin)" +
-                   " VALUES(@eID, @name, @uname, @pass, @admin";
+                cmd.CommandText = "INSERT INTO employee(name, username, password, isAdmin)" +
+                   " VALUES(@name, @uname, @pass, @admin)";
                 cmd.Prepare();
 
-                cmd.Parameters.AddWithValue("@eID", entity.EmployeeID);
                 cmd.Parameters.AddWithValue("@name", entity.Name);
                 cmd.Parameters.AddWithValue("@uname", entity.Username);
                 cmd.Parameters.AddWithValue("@pass", entity.Password);
@@ -72,12 +71,11 @@ namespace DataAccesLayer
             {
                 MySql.Data.MySqlClient.MySqlCommand cmd = new MySql.Data.MySqlClient.MySqlCommand();
                 cmd.Connection = conn;
-                cmd.CommandText = "UPDATE employee SET employeeID=@eID, name=@name," +
-                    " username=@uname, password=@password, isAdmin=@isAdmin" +
+                cmd.CommandText = "UPDATE employee SET name=@name," +
+                    " username=@uname, password=@pass, isAdmin=@admin" +
                     " WHERE employeeID=@id";
                 cmd.Prepare();
 
-                cmd.Parameters.AddWithValue("@eID", newEntity.EmployeeID);
                 cmd.Parameters.AddWithValue("@name", newEntity.Name);
                 cmd.Parameters.AddWithValue("@uname", newEntity.Username);
                 cmd.Parameters.AddWithValue("@pass", newEntity.Password);
@@ -103,7 +101,7 @@ namespace DataAccesLayer
             {
                 MySql.Data.MySqlClient.MySqlCommand cmd = new MySql.Data.MySqlClient.MySqlCommand();
                 cmd.Connection = conn;
-                cmd.CommandText = "SELECT * FROM employee WHERE clientID=@id";
+                cmd.CommandText = "SELECT * FROM employee WHERE employeeID=@id";
                 cmd.Prepare();
 
                 cmd.Parameters.AddWithValue("@id", id);
@@ -124,7 +122,7 @@ namespace DataAccesLayer
             return employee;
         }
 
-        public override List<Employee> FindAll(int id)
+        public override List<Employee> FindAll()
         {
             MySql.Data.MySqlClient.MySqlDataReader rdr = null;
             List<Employee> result = new List<Employee>();

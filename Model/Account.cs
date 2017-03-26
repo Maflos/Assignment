@@ -57,6 +57,12 @@ namespace Model
             return isTransfered;
         }
 
+        public override string ToString()
+        {
+            return accountID + ") " + clientID + " " + type +
+                " " + balance + " " + creationDate.ToString();
+        }
+
         public int AccountID
         {
             get { return accountID; }

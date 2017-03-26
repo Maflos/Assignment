@@ -24,6 +24,11 @@ namespace Model
             this.isAdmin = isAdmin;
         }
 
+        public override string ToString()
+        {
+            return employeeID + ") " + name + " " + username +
+                " " + password + " " + isAdmin;
+        }
 
         public int EmployeeID
         {

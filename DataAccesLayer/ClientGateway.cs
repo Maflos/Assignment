@@ -21,11 +21,10 @@ namespace DataAccesLayer
             {
                 MySql.Data.MySqlClient.MySqlCommand cmd = new MySql.Data.MySqlClient.MySqlCommand();
                 cmd.Connection = conn;
-                cmd.CommandText = "INSERT INTO client(clientID, name, idCardNumber, code, address)" +
-                   " VALUES(@cID, @name, @id, @code, @address";
+                cmd.CommandText = "INSERT INTO client(name, idCardNumber, code, address)" +
+                   " VALUES(@name, @id, @code, @address)";
                 cmd.Prepare();
 
-                cmd.Parameters.AddWithValue("@cID", entity.ClientID);
                 cmd.Parameters.AddWithValue("@name", entity.Name);
                 cmd.Parameters.AddWithValue("@id", entity.IdCardNumber);
                 cmd.Parameters.AddWithValue("@code", entity.Code);
@@ -72,12 +71,11 @@ namespace DataAccesLayer
             {
                 MySql.Data.MySqlClient.MySqlCommand cmd = new MySql.Data.MySqlClient.MySqlCommand();
                 cmd.Connection = conn;
-                cmd.CommandText = "UPDATE client SET clientID=@cID, name=@name," +
+                cmd.CommandText = "UPDATE client SET name=@name," +
                     " idCardNumber=@idC, code=@code, address=@address" +
                     " WHERE clientID=@id";
                 cmd.Prepare();
 
-                cmd.Parameters.AddWithValue("@cID", newEntity.ClientID);
                 cmd.Parameters.AddWithValue("@name", newEntity.Name);
                 cmd.Parameters.AddWithValue("@idC", newEntity.IdCardNumber);
                 cmd.Parameters.AddWithValue("@code", newEntity.Code);
@@ -124,7 +122,7 @@ namespace DataAccesLayer
             return client;
         }
 
-        public override List<Client> FindAll(int id)
+        public override List<Client> FindAll()
         {
             MySql.Data.MySqlClient.MySqlDataReader rdr = null;
             List<Client> result = new List<Client>();

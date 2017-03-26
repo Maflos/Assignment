@@ -24,8 +24,6 @@ namespace Test
                 Console.WriteLine(ex.ToString());
             }
 
-            ClientGateway cg = new ClientGateway(connection);
-
         }
     }
 }
