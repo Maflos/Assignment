@@ -9,7 +9,7 @@ namespace DataAccesLayer
 {
     public class AccountGateway : GenericDataGateway<Account>
     {
-        public AccountGateway(string myConnectionString) : base(myConnectionString)
+        public AccountGateway() : base()
         {
         }
 

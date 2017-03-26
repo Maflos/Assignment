@@ -46,8 +46,11 @@
   <ItemGroup>
     <Compile Include="AccountGateway.cs" />
     <Compile Include="ClientGateway.cs" />
+    <Compile Include="DataGateway.cs" />
     <Compile Include="EmployeeGateway.cs" />
     <Compile Include="GenericDataGateway.cs" />
+    <Compile Include="LogGateway.cs" />
+    <Compile Include="LoginGateway.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

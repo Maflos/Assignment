@@ -13,17 +13,14 @@ namespace Test
     {
         static void Main(string[] args)
         {
-            string connection = "";
+            LogGateway lg = new LogGateway();
 
-            try
-            {
-                connection = System.IO.File.ReadAllText("connection.txt");
-            }
-            catch (System.IO.FileNotFoundException ex)
-            {
-                Console.WriteLine(ex.ToString());
-            }
+            lg.Insert(new Log(new DateTime(2015, 3, 3, 5, 4, 51), 3, "been tere done that"));
 
+            foreach(Log l in lg.GetReport(22, 1))
+            {
+                Console.WriteLine(l.ToString());
+            }
         }
     }
 }

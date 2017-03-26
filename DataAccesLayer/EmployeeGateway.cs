@@ -9,7 +9,7 @@ namespace DataAccesLayer
 {
     public class EmployeeGateway : GenericDataGateway<Employee>
     {
-        public EmployeeGateway(string myConnectionString) : base(myConnectionString)
+        public EmployeeGateway() : base()
         {
         }
 
