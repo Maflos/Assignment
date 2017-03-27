@@ -17,19 +17,38 @@ namespace BusinessLayer
             myGateway = new AccountGateway();
         }
 
-        public bool ProcessUtilities(int accountID, int sum)
+        public bool ProcessUtilities(int accountID, double sum)
         {
             Account account = myGateway.Find(accountID);
-   
-            return account.ProccessUtilities(sum);
+            
+            if(account.ProccessUtilities(sum))
+            {
+                myGateway.Update(accountID, account);
+            }
+            else
+            {
+                return false;
+            }
+
+            return true;
         }
 
-        public bool TransferMoney(int senderID, int receiverID, int sum)
+        public bool TransferMoney(int senderID, int receiverID, double sum)
         {
             Account senderAccount = myGateway.Find(senderID);
             Account receiverAccount = myGateway.Find(receiverID);
 
-            return senderAccount.TransferMoney(receiverAccount, sum);
+            if (senderAccount.TransferMoney(receiverAccount, sum))
+            {
+                myGateway.Update(senderID, senderAccount);
+                myGateway.Update(receiverID, receiverAccount);
+            }
+            else
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

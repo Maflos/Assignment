@@ -13,13 +13,17 @@ namespace Test
     {
         static void Main(string[] args)
         {
-            LogGateway lg = new LogGateway();
 
-            lg.Insert(new Log(new DateTime(2015, 3, 3, 5, 4, 51), 3, "been tere done that"));
+            LoginRepository loginRepo = new LoginRepository();
+            Employee emp = loginRepo.Login("adm1", "12345");
 
-            foreach(Log l in lg.GetReport(22, 1))
+            if (emp == null)
             {
-                Console.WriteLine(l.ToString());
+                Console.WriteLine("Wrong username or password");
+            }
+            else
+            {
+                Console.WriteLine("Yes");
             }
         }
     }

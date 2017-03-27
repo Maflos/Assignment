@@ -11,7 +11,6 @@ namespace DataAccesLayer
     {
         public LoginGateway() : base()
         {
-
         }
  
         public Employee Login(string username, string password)

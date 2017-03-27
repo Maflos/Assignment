@@ -88,7 +88,7 @@ namespace DataAccesLayer
             {
                 Console.WriteLine(ex.ToString());
             }
-
+      
             return isUpdated;
         }
 
@@ -117,6 +117,10 @@ namespace DataAccesLayer
             catch (MySql.Data.MySqlClient.MySqlException ex)
             {
                 Console.WriteLine(ex.ToString());
+            }
+            finally
+            {
+                rdr.Close();
             }
 
             return account;
