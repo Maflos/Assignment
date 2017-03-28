@@ -10,18 +10,20 @@ namespace Model
     {
         private DateTime logDate;
         private int employeeID;
+        private string name;
         private string report;
 
-        public Log (DateTime logDate, int employeeID, string report)
+        public Log (DateTime logDate, int employeeID, string name, string report)
         {
             this.logDate = logDate;
             this.employeeID = employeeID;
+            this.name = name;
             this.report = report;
         }
 
         public override string ToString()
         {
-            return logDate.ToString() + " -> " + employeeID + " -> " + report;
+            return logDate.ToString() + " -> " + name + " -> " + report;
         }
 
         public DateTime LogDate
@@ -40,6 +42,19 @@ namespace Model
         {
             get { return report; }
             set { report = value; }
+        }
+
+        public string Name
+        {
+            get
+            {
+                return name;
+            }
+
+            set
+            {
+                name = value;
+            }
         }
     }
 }

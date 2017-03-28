@@ -19,6 +19,29 @@ namespace Assignment
             InitializeComponent();
         }
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+            LoginRepository loginRepo = new LoginRepository();
+            Employee emp = loginRepo.Login(textBox1.Text, textBox2.Text);
+
+            if (emp == null)
+            {
+                MessageBox.Show("Wrong username or password!");
+            }
+            else if (emp.IsAdmin == 1)
+            {
+                AdminForm adminForm = new AdminForm();
+                adminForm.Show();
+                //Hide();
+            }
+            else
+            {
+                EmployeeForm empForm = new EmployeeForm(emp);
+                empForm.Show();
+                //Hide();
+            }
+        }
+
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
 
@@ -28,28 +51,6 @@ namespace Assignment
         {
 
         }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            LoginRepository loginRepo = new LoginRepository();
-            Employee emp = loginRepo.Login(textBox1.Text, textBox2.Text);
-
-            if(emp == null)
-            {
-                MessageBox.Show("Wrong username or password!");
-            }
-            else if(emp.IsAdmin == 1)
-            {
-                AdminForm adminForm = new AdminForm();
-                adminForm.Show();
-                //Hide();
-            }
-            else
-            {
-                EmployeeForm empForm = new EmployeeForm();
-                empForm.Show();
-                //Hide();
-            }
-        }
+     
     }
 }

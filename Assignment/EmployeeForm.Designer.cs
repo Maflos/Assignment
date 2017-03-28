@@ -65,12 +65,13 @@
             this.label9 = new System.Windows.Forms.Label();
             this.textBox10 = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
+            this.textBox11 = new System.Windows.Forms.TextBox();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // richTextBox1
             // 
-            this.richTextBox1.Location = new System.Drawing.Point(3, 228);
+            this.richTextBox1.Location = new System.Drawing.Point(3, 230);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.ReadOnly = true;
             this.richTextBox1.Size = new System.Drawing.Size(611, 141);
@@ -178,35 +179,35 @@
             // insertToolStripMenuItem
             // 
             this.insertToolStripMenuItem.Name = "insertToolStripMenuItem";
-            this.insertToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.insertToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
             this.insertToolStripMenuItem.Text = "Insert";
             this.insertToolStripMenuItem.Click += new System.EventHandler(this.insertToolStripMenuItem_Click);
             // 
             // deleteToolStripMenuItem
             // 
             this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
-            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
             this.deleteToolStripMenuItem.Text = "Delete";
             this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
             // 
             // updateToolStripMenuItem
             // 
             this.updateToolStripMenuItem.Name = "updateToolStripMenuItem";
-            this.updateToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.updateToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
             this.updateToolStripMenuItem.Text = "Update";
             this.updateToolStripMenuItem.Click += new System.EventHandler(this.updateToolStripMenuItem_Click);
             // 
             // findToolStripMenuItem
             // 
             this.findToolStripMenuItem.Name = "findToolStripMenuItem";
-            this.findToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.findToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
             this.findToolStripMenuItem.Text = "Find ";
             this.findToolStripMenuItem.Click += new System.EventHandler(this.findToolStripMenuItem_Click);
             // 
             // findAllToolStripMenuItem
             // 
             this.findAllToolStripMenuItem.Name = "findAllToolStripMenuItem";
-            this.findAllToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.findAllToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
             this.findAllToolStripMenuItem.Text = "Find All";
             this.findAllToolStripMenuItem.Click += new System.EventHandler(this.findAllToolStripMenuItem_Click);
             // 
@@ -225,28 +226,28 @@
             // insertToolStripMenuItem1
             // 
             this.insertToolStripMenuItem1.Name = "insertToolStripMenuItem1";
-            this.insertToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.insertToolStripMenuItem1.Size = new System.Drawing.Size(120, 22);
             this.insertToolStripMenuItem1.Text = "Insert";
             this.insertToolStripMenuItem1.Click += new System.EventHandler(this.insertToolStripMenuItem1_Click);
             // 
             // deleteToolStripMenuItem1
             // 
             this.deleteToolStripMenuItem1.Name = "deleteToolStripMenuItem1";
-            this.deleteToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.deleteToolStripMenuItem1.Size = new System.Drawing.Size(120, 22);
             this.deleteToolStripMenuItem1.Text = "Delete";
             this.deleteToolStripMenuItem1.Click += new System.EventHandler(this.deleteToolStripMenuItem1_Click);
             // 
             // updateToolStripMenuItem1
             // 
             this.updateToolStripMenuItem1.Name = "updateToolStripMenuItem1";
-            this.updateToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.updateToolStripMenuItem1.Size = new System.Drawing.Size(120, 22);
             this.updateToolStripMenuItem1.Text = "Update";
             this.updateToolStripMenuItem1.Click += new System.EventHandler(this.updateToolStripMenuItem1_Click);
             // 
             // findToolStripMenuItem1
             // 
             this.findToolStripMenuItem1.Name = "findToolStripMenuItem1";
-            this.findToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.findToolStripMenuItem1.Size = new System.Drawing.Size(120, 22);
             this.findToolStripMenuItem1.Text = "Find";
             this.findToolStripMenuItem1.Click += new System.EventHandler(this.findToolStripMenuItem1_Click);
             // 
@@ -387,11 +388,22 @@
             this.label10.TabIndex = 22;
             this.label10.Text = "Account ID:";
             // 
+            // textBox11
+            // 
+            this.textBox11.Location = new System.Drawing.Point(462, 204);
+            this.textBox11.Name = "textBox11";
+            this.textBox11.ReadOnly = true;
+            this.textBox11.Size = new System.Drawing.Size(140, 20);
+            this.textBox11.TabIndex = 23;
+            this.textBox11.Text = "Logged in as: ";
+            this.textBox11.TextChanged += new System.EventHandler(this.textBox11_TextChanged);
+            // 
             // EmployeeForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(614, 372);
+            this.Controls.Add(this.textBox11);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.textBox10);
             this.Controls.Add(this.label9);
@@ -462,5 +474,6 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.TextBox textBox10;
         private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.TextBox textBox11;
     }
 }

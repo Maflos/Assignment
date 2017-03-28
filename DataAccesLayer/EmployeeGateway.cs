@@ -145,6 +145,10 @@ namespace DataAccesLayer
             {
                 Console.WriteLine(ex.ToString());
             }
+            finally
+            {
+                rdr.Close();
+            }
 
             return result;
         }

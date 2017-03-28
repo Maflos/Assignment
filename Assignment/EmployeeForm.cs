@@ -15,37 +15,51 @@ namespace Assignment
 {
     public partial class EmployeeForm : Form
     {
-        public EmployeeForm()
+        public Employee currentUser;
+
+        public EmployeeForm(Employee currentUser)
         {
+            this.currentUser = currentUser;
             InitializeComponent();
+            textBox11.Text += currentUser.Name;
         }
 
         //insert client
         private void insertToolStripMenuItem_Click(object sender, EventArgs e)
         {
             CrudRepository<ClientGateway, Client> repo = new CrudRepository<ClientGateway, Client>();
+            LogRepository logRepo = new LogRepository();
             string name = textBox1.Text;
             string idCardNr = textBox2.Text;
             string code = textBox3.Text;
             string address = textBox4.Text;
-            int n;
+            int idNr = 0;
 
-            if (name != "" && code != "" && address != "" && Int32.TryParse(idCardNr, out n))
+            try
             {
-                Client client = new Client(0, name, n, code, address);
-
-                if (repo.Insert(client))
+                idNr = int.Parse(idCardNr);
+                if (name != "" && code != "" && address != "")
                 {
-                    MessageBox.Show("Succesfully Inserted!");
+                    Client client = new Client(0, name, idNr, code, address);
+
+                    if (repo.Insert(client))
+                    {
+                        logRepo.InsertLog(currentUser.EmployeeID, currentUser.Name, "inserted a client");
+                        MessageBox.Show("Succesfully Inserted!");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Not Inserted!");
+                    }
                 }
                 else
                 {
-                    MessageBox.Show("Not Inserted!");
+                    MessageBox.Show("Wrong input!");
                 }
             }
-            else
+            catch
             {
-                MessageBox.Show("Wrong input!");
+                MessageBox.Show("Wrong Input");
             }
         }
 
@@ -53,15 +67,18 @@ namespace Assignment
         private void findToolStripMenuItem_Click(object sender, EventArgs e)
         {
             CrudRepository<ClientGateway, Client> repo = new CrudRepository<ClientGateway, Client>();
+            LogRepository logRepo = new LogRepository();
             string id = textBox9.Text;
-            int n;
+            int cID;
 
-            if (Int32.TryParse(id, out n))
+            try
             {
-                Client client = (Client)repo.Find(n);
+                cID = int.Parse(id);
+                Client client = (Client)repo.Find(cID);
 
                 if (client != null)
                 {
+                    logRepo.InsertLog(currentUser.EmployeeID, currentUser.Name, "searched for a client");
                     richTextBox1.ResetText();
                     richTextBox1.Text += client.ToString();
                 }
@@ -70,9 +87,9 @@ namespace Assignment
                     MessageBox.Show("Not Found!");
                 }
             }
-            else
+            catch
             {
-                MessageBox.Show("Wrong input!");
+                MessageBox.Show("Not Found!");
             }
         }
 
@@ -80,13 +97,17 @@ namespace Assignment
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e) 
         {
             CrudRepository<ClientGateway, Client> repo = new CrudRepository<ClientGateway, Client>();
+            LogRepository logRepo = new LogRepository();
             string id = textBox9.Text;
-            int n;
+            int cID;
 
-            if (Int32.TryParse(id, out n))
+            try
             {
-                if (repo.Delete(n))
+                cID = int.Parse(id);
+
+                if (repo.Delete(cID))
                 {
+                    logRepo.InsertLog(currentUser.EmployeeID, currentUser.Name, "deleted a client");
                     MessageBox.Show("Succesfully Deleted!");
                 }
                 else
@@ -94,61 +115,73 @@ namespace Assignment
                     MessageBox.Show("Not Found!");
                 }
             }
-            else
+            catch
             {
-                MessageBox.Show("Wrong input!");
+                MessageBox.Show("Wrong Input!");
             }
-
         }
 
         //update client
         private void updateToolStripMenuItem_Click(object sender, EventArgs e)
         {
             CrudRepository<ClientGateway, Client> repo = new CrudRepository<ClientGateway, Client>();
+            LogRepository logRepo = new LogRepository();
             string name = textBox1.Text;
             string idCardNr = textBox2.Text;
             string code = textBox3.Text;
             string address = textBox4.Text;
             string id = textBox9.Text;
-            int n, m;
+            int idNr, cID;
 
-            if (name != "" && code != "" && address != ""
-                && Int32.TryParse(idCardNr, out n) && Int32.TryParse(id, out m))
+            try
             {
-                Client client = new Client(m, name, n, code, address);
+                idNr = int.Parse(idCardNr);
+                cID = int.Parse(id);
 
-                if (repo.Update(m, client))
+                if (name != "" && code != "" && address != "")
                 {
-                    MessageBox.Show("Succesfully Updated!");
+                    Client client = new Client(cID, name, idNr, code, address);
+
+                    if (repo.Update(cID, client))
+                    {
+                        logRepo.InsertLog(currentUser.EmployeeID, currentUser.Name, "updated a client");
+                        MessageBox.Show("Succesfully Updated!");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Not Updated!");
+                    }
                 }
                 else
                 {
-                    MessageBox.Show("Not Updated!");
+                    MessageBox.Show("Wrong input!");
                 }
             }
-            else
+            catch
             {
                 MessageBox.Show("Wrong input!");
-            }
+            }           
         }
 
         //find all clients
         private void findAllToolStripMenuItem_Click(object sender, EventArgs e)
         {
             CrudRepository<ClientGateway, Client> repo = new CrudRepository<ClientGateway, Client>();
+            LogRepository logRepo = new LogRepository();
             richTextBox1.ResetText();
 
             foreach (Client c in repo.FindAll())
             {
                 richTextBox1.Text += c.ToString() + "\n";
             }
-
+            logRepo.InsertLog(currentUser.EmployeeID, currentUser.Name, "listed clients");
         }
 
         //insert account
         private void insertToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             CrudRepository<AccountGateway, Account> repo = new CrudRepository<AccountGateway, Account>();
+            LogRepository logRepo = new LogRepository();
             string clientID = textBox5.Text;
             string type = textBox6.Text;
             string balance = textBox7.Text;
@@ -156,38 +189,55 @@ namespace Assignment
             double bal;
             DateTime creationDate = DateTime.Now;
 
-            if (Int32.TryParse(clientID, out cID) && type != "" && Double.TryParse(balance, out bal))
+            try
             {
-                Account acc = new Account(0, cID, type, bal, creationDate);
+                cID = int.Parse(clientID);
+                bal = double.Parse(balance);
 
-                if (repo.Insert(acc))
+                if (type != "")
                 {
-                    MessageBox.Show("Succesfully inserted!");
+                    Account acc = new Account(0, cID, type, bal, creationDate);
+
+                    if (repo.Insert(acc))
+                    {
+                        logRepo.InsertLog(currentUser.EmployeeID, currentUser.Name, "inserted an account");
+                        MessageBox.Show("Succesfully inserted!");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Not inserted!");
+                    }
                 }
                 else
                 {
-                    MessageBox.Show("Not inserted!");
+                    MessageBox.Show("Wrong input!");
                 }
             }
-            else
+            catch
             {
                 MessageBox.Show("Wrong input!");
             }
+
+
         }
 
-        //find client
+        //find account
         private void findToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             CrudRepository<AccountGateway, Account> repo = new CrudRepository<AccountGateway, Account>();
+            LogRepository logRepo = new LogRepository();
             string id = textBox10.Text;
             int aID;
 
-            if (Int32.TryParse(id, out aID))
+            try
             {
+                aID = int.Parse(id);
+
                 Account acc = (Account)repo.Find(aID);
 
                 if (acc != null)
                 {
+                    logRepo.InsertLog(currentUser.EmployeeID, currentUser.Name, "searched for an account");
                     richTextBox1.ResetText();
                     richTextBox1.Text += acc.ToString();
                 }
@@ -196,7 +246,7 @@ namespace Assignment
                     MessageBox.Show("Not found!");
                 }
             }
-            else
+            catch
             {
                 MessageBox.Show("Wrong input!");
             }
@@ -206,13 +256,17 @@ namespace Assignment
         private void deleteToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             CrudRepository<AccountGateway, Account> repo = new CrudRepository<AccountGateway, Account>();
+            LogRepository logRepo = new LogRepository();
             string id = textBox10.Text;
             int aID;
 
-            if (Int32.TryParse(id, out aID))
+            try
             {
+                aID = int.Parse(id);
+
                 if (repo.Delete(aID))
                 {
+                    logRepo.InsertLog(currentUser.EmployeeID, currentUser.Name, "deleted an account");
                     MessageBox.Show("Succesfully deleted!");
                 }
                 else
@@ -220,7 +274,7 @@ namespace Assignment
                     MessageBox.Show("Not deleted!");
                 }
             }
-            else
+            catch
             {
                 MessageBox.Show("Wrong input!");
             }
@@ -230,6 +284,7 @@ namespace Assignment
         private void updateToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             CrudRepository<AccountGateway, Account> repo = new CrudRepository<AccountGateway, Account>();
+            LogRepository logRepo = new LogRepository();
             string id = textBox10.Text;
             string clientID = textBox5.Text;
             string type = textBox6.Text;
@@ -238,51 +293,71 @@ namespace Assignment
             double bal;
             DateTime creationDate = DateTime.Now;
 
-            if (Int32.TryParse(id, out aID) && Int32.TryParse(clientID, out cID) &&
-                type != "" && Double.TryParse(balance, out bal))
+            try
             {
-                Account acc = new Account(0, cID, type, bal, creationDate);
+                aID = int.Parse(id);
+                cID = int.Parse(clientID);
+                bal = double.Parse(balance);
 
-                if (repo.Update(aID, acc))
+                if (type != "")
                 {
-                    MessageBox.Show("Succesfully updated!");
+                    Account acc = new Account(0, cID, type, bal, creationDate);
+
+                    if (repo.Update(aID, acc))
+                    {
+                        logRepo.InsertLog(currentUser.EmployeeID, currentUser.Name, "updated an account");
+                        MessageBox.Show("Succesfully updated!");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Not updated!");
+                    }
                 }
                 else
                 {
-                    MessageBox.Show("Not updated!");
+                    MessageBox.Show("Wrong input!");
                 }
+
             }
-            else
+            catch
             {
                 MessageBox.Show("Wrong input!");
-            }
+            }        
         }
 
         //find all accounts
         private void findALLToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             CrudRepository<AccountGateway, Account> repo = new CrudRepository<AccountGateway, Account>();
+            LogRepository logRepo = new LogRepository();
             richTextBox1.ResetText();
 
             foreach (Account acc in repo.FindAll())
             {
                 richTextBox1.Text += acc.ToString() + "\n";
             }
+
+            logRepo.InsertLog(currentUser.EmployeeID, currentUser.Name, "listed accounts");
         }
 
         //pay utilities
         private void payUtilitiesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             AccountOperationsRepository repo = new AccountOperationsRepository();
+            LogRepository logRepo = new LogRepository();
             string id = textBox10.Text;
             string balance = textBox7.Text;
             int accID;
             double sum;
 
-            if (int.TryParse(id, out accID) && double.TryParse(balance, out sum))
+            try
             {
+                accID = int.Parse(id);
+                sum = double.Parse(balance);
+
                 if (repo.ProcessUtilities(accID, sum))
                 {
+                    logRepo.InsertLog(currentUser.EmployeeID, currentUser.Name, "proccessed utilities");
                     MessageBox.Show("Utilities payed!");
                 }
                 else
@@ -290,7 +365,7 @@ namespace Assignment
                     MessageBox.Show("Not enough money!");
                 }
             }
-            else
+            catch
             {
                 MessageBox.Show("Wrong input!");
             }
@@ -300,17 +375,22 @@ namespace Assignment
         private void transferMoneyToolStripMenuItem_Click(object sender, EventArgs e)
         {
             AccountOperationsRepository repo = new AccountOperationsRepository();
+            LogRepository logRepo = new LogRepository();
             string senderID = textBox10.Text;
             string receiverID = textBox8.Text;
             string balance = textBox7.Text;
             int sID, rID;
             double sum;
 
-            if (int.TryParse(senderID, out sID) && int.TryParse(receiverID, out rID) &&
-                double.TryParse(balance, out sum))
+            try
             {
+                sID = int.Parse(senderID);
+                rID = int.Parse(receiverID);
+                sum = int.Parse(balance);
+
                 if (repo.TransferMoney(sID, rID, sum))
                 {
+                    logRepo.InsertLog(currentUser.EmployeeID, currentUser.Name, "trasfered money");
                     MessageBox.Show("Transfer complete!");
                 }
                 else
@@ -318,10 +398,9 @@ namespace Assignment
                     MessageBox.Show("Not enough money!");
                 }
             }
-            else
+            catch
             {
                 MessageBox.Show("Wrong input!");
-
             }
         }
 
@@ -441,5 +520,9 @@ namespace Assignment
             
         }
 
+        private void textBox11_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

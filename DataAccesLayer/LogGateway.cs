@@ -19,12 +19,13 @@ namespace DataAccesLayer
             {
                 MySql.Data.MySqlClient.MySqlCommand cmd = new MySql.Data.MySqlClient.MySqlCommand();
                 cmd.Connection = conn;
-                cmd.CommandText = "INSERT INTO log(logDate, employeeID, report)" +
-                   " VALUES(@date, @id, @report)";
+                cmd.CommandText = "INSERT INTO log(logDate, employeeID, name, report)" +
+                   " VALUES(@date, @id, @name, @report)";
                 cmd.Prepare();
 
                 cmd.Parameters.AddWithValue("@date", log.LogDate);
                 cmd.Parameters.AddWithValue("@id", log.EmployeeID);
+                cmd.Parameters.AddWithValue("@name", log.Name);
                 cmd.Parameters.AddWithValue("@report", log.Report);
                 cmd.ExecuteNonQuery();
             }
@@ -34,7 +35,7 @@ namespace DataAccesLayer
             }
         }
 
-        public List<Log> GetReport(int reportDay, int employeeID)
+        public List<Log> GetDaylyReport(int reportDay, int employeeID)
         {
             MySql.Data.MySqlClient.MySqlDataReader rdr = null;
             List<Log> report = new List<Log>();
@@ -53,7 +54,8 @@ namespace DataAccesLayer
 
                 while (rdr.Read())
                 {
-                    Log l = new Log(rdr.GetDateTime(0), rdr.GetInt32(1), rdr.GetString(2));
+                    Log l = new Log(rdr.GetDateTime(0), rdr.GetInt32(1), 
+                        rdr.GetString(2), rdr.GetString(3));
                     report.Add(l);
                 }
 
@@ -61,6 +63,47 @@ namespace DataAccesLayer
             catch (MySql.Data.MySqlClient.MySqlException ex)
             {
                 Console.WriteLine(ex.ToString());
+            }
+            finally
+            {
+                rdr.Close();
+            }
+
+            return report;
+        }
+
+        public List<Log> GetMonthlyReport(int reportMonth, int employeeID)
+        {
+            MySql.Data.MySqlClient.MySqlDataReader rdr = null;
+            List<Log> report = new List<Log>();
+
+            try
+            {
+                MySql.Data.MySqlClient.MySqlCommand cmd = new MySql.Data.MySqlClient.MySqlCommand();
+                cmd.Connection = conn;
+                cmd.CommandText = "SELECT * FROM log WHERE MONTH(logDate)=@month AND employeeID=@id";
+                cmd.Prepare();
+
+                cmd.Parameters.AddWithValue("@month", reportMonth);
+                cmd.Parameters.AddWithValue("@id", employeeID);
+
+                rdr = cmd.ExecuteReader();
+
+                while (rdr.Read())
+                {
+                    Log l = new Log(rdr.GetDateTime(0), rdr.GetInt32(1),
+                        rdr.GetString(2), rdr.GetString(3));
+                    report.Add(l);
+                }
+
+            }
+            catch (MySql.Data.MySqlClient.MySqlException ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            finally
+            {
+                rdr.Close();
             }
 
             return report;

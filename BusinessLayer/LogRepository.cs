@@ -17,19 +17,21 @@ namespace BusinessLayer
             myGateway = new LogGateway();
         }
 
-        public void InsertLog(int id, string report)
+        public void InsertLog(int id, string name, string report)
         {
             DateTime currentDate = DateTime.Now;
-            Log log = new Log(currentDate, id, report);
+            Log log = new Log(currentDate, id, name, report);
             myGateway.Insert(log);
         }
 
-        public List<Log> GetReport(int day, int employeeID)
+        public List<Log> GetDaylyReport(int day, int employeeID)
         {
-            return myGateway.GetReport(day, employeeID);
+            return myGateway.GetDaylyReport(day, employeeID);
+        }
+
+        public List<Log> GetMonthlyReport(int month, int employeeID)
+        {
+            return myGateway.GetMonthlyReport(month, employeeID);
         }
     }
-
-
-   
 }
